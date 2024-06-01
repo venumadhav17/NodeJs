@@ -69,36 +69,19 @@
 // //console.log("Hello from server!")
 
 // creating an app instance
-
+require('dotenv').config();
 const express = require('express');
 // const { data } = require('./DB/currency.json');
 // import { getCurrencies } from './controllers/currencies.controller';
-const {
-  getCurrencies,
-  getTitle,
-  getCurrenciesWithSymbol,
-} = require('./controllers/currencies.controller');
 
-const {
-  getUsersData,
-  getUsersById,
-  getUsersWithGender,
-} = require('./controllers/users.controller');
+const currencyRoutes = require('./routes/currencies.routes');
+const userRoutes = require('./routes/user.routes');
 
 const app = express();
 const PORT = 8082;
 
-app.get('/', getTitle);
-
-app.get('/currencies', getCurrencies);
-
-app.get('/currencies/:symbol/:value', getCurrenciesWithSymbol);
-
-app.get('/users', getUsersData);
-
-app.get('/users/search', getUsersWithGender);
-
-app.get('/users/:uuid', getUsersById);
+app.use('/currencies', currencyRoutes);
+app.use('/users', userRoutes);
 
 app.listen(PORT, () => {
   console.log('Listening!...');
