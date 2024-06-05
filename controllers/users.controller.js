@@ -1,5 +1,5 @@
 const { data } = require('../DB/users.json');
-const { getQueryErrors } = require('../validators/users.validator');
+// const { getQueryErrors } = require('../middlewares/validators/users.validator');
 
 const getUsersData = (req, res) => {
   // console.log(data);
@@ -18,13 +18,21 @@ const getUsersById = (req, res) => {
 };
 
 const getUsersWithGender = (req, res) => {
+  //console.log('Alok', req.addTestKey);
+  console.log('Alok', req.query);
   const { gender, age } = req.query;
+  // explicitly calling it here
+  /*const { gender, age } = req.query;
 
   const error = getQueryErrors({ age, gender });
 
   if (error) {
-    return res.status(422).json(error);
-  }
+    //return res.status(422).json(error);
+    return res
+      .status(422)
+      .json('Some error has happened with the incoming data');
+  } */
+
   /*if (gender) {
     if (!['female', 'male'].includes(gender)) {
       res
@@ -66,7 +74,7 @@ const getUsersWithGender = (req, res) => {
     res.status(200).json(result);
   } else if (age) {
     const result = data.filter((elem) => Number(elem.dob.age) >= Number(age));
-    res.status(200).json(result);
+    res.status(200).json(req.addTestKey);
   } else {
     res.status(404).json({ status: 'Not Found' });
   }
