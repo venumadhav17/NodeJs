@@ -78,10 +78,11 @@ const currencyRoutes = require('./routes/currencies.routes');
 const userRoutes = require('./routes/user.routes');
 const { verifyAuth } = require('./middlewares/verifyAuth');
 const mongoose = require('mongoose');
+const blogRoutes = require('./routes/blogs.routes');
 
 const app = express();
 const PORT = 8082;
-const DB_URI = 'mongodb://127.0.0.1:27017/webiste';
+const DB_URI = 'mongodb://127.0.0.1:27017/website';
 console.log(DB_URI);
 
 mongoose
@@ -89,11 +90,13 @@ mongoose
   .then(() => console.log('Connected to DB at', DB_URI))
   .catch((e) => console.log('Failed to connect to DB', e));
 
+app.use(express.json());
 // we are applying verifyAuth middleware function as global middleware
 app.use(verifyAuth); // Called first // In realworld scenario it's a authenticate process
 app.use('/currencies', currencyRoutes); // Applied after verifyAuth
 app.use('/users', userRoutes); // Applied after currencies
 // Voila! Now all our request pass through the validation!
+app.use('/blogs', blogRoutes);
 
 app.listen(PORT, () => {
   console.log('Listening!...');
